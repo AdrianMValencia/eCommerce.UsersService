@@ -1,0 +1,13 @@
+@eCommerce.UsersService.Api_HostAddress = http://localhost:5079/
+
+### Registrar un usuario
+POST {{eCommerce.UsersService.Api_HostAddress}}api/users/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstName": "Adrian",
+  "lastName": "Mechato",
+  "email": "adrian.mechato@gmail.com",
+  "password": "adrian123"
+}
