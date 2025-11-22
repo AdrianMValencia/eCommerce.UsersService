@@ -1,4 +1,5 @@
 ﻿using eCommerce.UsersService.Api.Abstractions.Messaging;
+using eCommerce.UsersService.Api.Configurations.Authentication;
 using eCommerce.UsersService.Api.Shared.Behaviors;
 using FluentValidation;
 using Mapster;
@@ -8,7 +9,9 @@ namespace eCommerce.UsersService.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDependencies(this IServiceCollection services)
+    public static IServiceCollection AddDependencies(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
     {
         TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -18,6 +21,10 @@ public static class DependencyInjection
 
         services.AddHandlersFromAssembly(typeof(DependencyInjection).Assembly);
         services.AddScoped<IDispatcher, Dispatcher>();
+
+        services.Configure<JwtSettings>(
+            configuration.GetSection(JwtSettings.SectionName));
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }

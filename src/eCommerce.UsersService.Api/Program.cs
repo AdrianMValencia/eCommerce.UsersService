@@ -10,7 +10,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("UsersServiceConnection")));
 
 builder.Services
-    .AddDependencies();
+    .AddDependencies(builder.Configuration);
 
 builder.Services.AddCarter();
 

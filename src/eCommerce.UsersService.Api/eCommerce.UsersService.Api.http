@@ -11,3 +11,13 @@ Accept: application/json
   "email": "adrian.mechato@gmail.com",
   "password": "adrian123"
 }
+
+### Login
+POST {{eCommerce.UsersService.Api_HostAddress}}api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "adrian.mechato@gmail.com",
+  "password": "adrian123"
+}
