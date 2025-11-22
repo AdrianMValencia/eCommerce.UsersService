@@ -107,6 +107,19 @@ public class CreateUser
                 .Dispatch<Command, bool>(command, cancellationToken);
 
                 return Results.Ok(response);
+            })
+            .WithName("RegisterUser")
+            .WithTags("Users")
+            .WithSummary("Registrar un nuevo usuario")
+            .WithDescription("Crea un nuevo usuario en el sistema con los datos proporcionados. La contraseña será encriptada automáticamente.")
+            .Produces<BaseResponse<bool>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithOpenApi(operation =>
+            {
+                operation.Summary = "Registrar un nuevo usuario";
+                operation.Description = "Endpoint para crear un nuevo usuario en el sistema eCommerce. " +
+                    "La contraseña se encripta automáticamente usando BCrypt antes de almacenarse.";
+                return operation;
             });
         }
     }

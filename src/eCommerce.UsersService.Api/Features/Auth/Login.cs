@@ -117,6 +117,21 @@ public class Login
                 var response = await dispatcher
                 .Dispatch<Query, AuthenticationResponse>(query, cancellationToken);
                 return Results.Ok(response);
+            })
+            .WithName("Login")
+            .WithTags("Authentication")
+            .WithSummary("Iniciar sesión")
+            .WithDescription("Autentica un usuario y genera un token JWT para acceder a los recursos protegidos del sistema.")
+            .Produces<BaseResponse<AuthenticationResponse>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithOpenApi(operation =>
+            {
+                operation.Summary = "Iniciar sesión en el sistema";
+                operation.Description = "Endpoint para autenticar usuarios existentes. " +
+                    "Valida las credenciales (email y contraseña) y devuelve un token JWT " +
+                    "junto con la información del usuario si la autenticación es exitosa.";
+                return operation;
             });
         }
     }
