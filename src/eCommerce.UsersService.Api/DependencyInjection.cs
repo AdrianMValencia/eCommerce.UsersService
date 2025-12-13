@@ -1,8 +1,10 @@
 ﻿using eCommerce.UsersService.Api.Abstractions.Messaging;
 using eCommerce.UsersService.Api.Configurations.Authentication;
+using eCommerce.UsersService.Api.Database;
 using eCommerce.UsersService.Api.Shared.Behaviors;
 using FluentValidation;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace eCommerce.UsersService.Api;
@@ -13,6 +15,15 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        string connectionStringTemplate = configuration.GetConnectionString("UsersServiceConnection")!;
+
+        string connectionString = connectionStringTemplate
+            .Replace("$POSTGRES_HOST", Environment.GetEnvironmentVariable("POSTGRES_HOST"))
+            .Replace("$POSTGRES_PASSWORD", Environment.GetEnvironmentVariable("POSTGRES_PASSWORD"));
+
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(connectionString));
+
         TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
