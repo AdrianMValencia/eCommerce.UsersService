@@ -1,13 +1,24 @@
 services:
-  microservice-users:
-   image: adrianmvalencia/ecommerce-microservice-users:v1.0
+  ecommerce.usersservice.api:
+   # image: adrianmvalencia/ecommerce-microservice-users:v1.0
+   build:
+    context: .
+    dockerfile: src/eCommerce.UsersService.Api/Dockerfile
+   image: ecommerce.usersservice.api
    environment:
     POSTGRES_HOST: postgres-host-microserviceusers
     POSTGRES_PASSWORD: amechato
+    POSTGRES_DATABASE: eCommerceUsersServiceDb
+    POSTGRES_USER: postgres
+    POSTGRES_PORT: 5432
    ports:
     - 9090:9090
    networks:
+    - microserviceuser-network
     - ecommerce-global-network
+   depends_on:
+    - container-postgres
+
   container-postgres:
    image: postgres:18.1
    environment:
@@ -19,9 +30,12 @@ services:
    volumes:
     - ./postgres-init:/docker-entrypoint-initdb.d
    networks:
-    - ecommerce-global-network
+    - microserviceuser-network
    hostname: postgres-host-microserviceusers
+
 networks:
+  microserviceuser-network:
+   driver: bridge  
   ecommerce-global-network:
    driver: bridge
    external: true

@@ -70,6 +70,9 @@ public class GetUserById
                 IDispatcher dispatcher,
                 CancellationToken cancellationToken) =>
             {
+                //await Task.Delay(100);
+                //throw new NotImplementedException();
+
                 var query = new Query { UserId = userId };
 
                 var response = await dispatcher

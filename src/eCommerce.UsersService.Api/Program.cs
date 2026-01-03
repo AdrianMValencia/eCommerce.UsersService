@@ -43,7 +43,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapCarter();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
